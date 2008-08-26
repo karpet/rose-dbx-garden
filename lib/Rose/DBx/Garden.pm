@@ -24,6 +24,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar --get_set_init' => 'base_form_class_code',
     'scalar --get_set_init' => 'text_field_size',
     'scalar --get_set_init' => 'limit_to_schemas',
+    'scalar'                => 'use_db_name',
 );
 
 our $VERSION = '0.15';
@@ -192,6 +193,15 @@ with B<find_schemas> set to true.
 
 sub init_limit_to_schemas { [] }
 
+=head2 use_db_name( I<name> )
+
+Define an explicit database name to use when generating class names.
+The default is taken from the Rose::DB connection information.
+B<NOTE:>This does not affect the db connection, only the string used
+in constructing class names.
+
+B<NOTE:>This option is ignored if find_schemas() is true.
+
 =head2 plant( I<path> )
 
 I<path> will override module_dir() if set in new().
@@ -306,6 +316,9 @@ EOF
         $self->_make_file( join( '::', $garden_prefix, 'Metadata' ),
             $self->_metadata_template );
 
+    }
+    elsif ( $self->use_db_name ) {
+        %schemas = ( $self->use_db_name => '' );
     }
     else {
 
