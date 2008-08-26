@@ -57,7 +57,8 @@ ok( my $garden = Rose::DBx::Garden->new(
                 ' ', map { ucfirst($_) }
                     split( m/_/, $col_name )
             );
-        }
+        },
+        include_autoinc_form_fields => 1,
     ),
     "garden obj created"
 );

@@ -11,10 +11,11 @@ use File::Basename;
 
 use Rose::Object::MakeMethods::Generic (
     boolean => [
-        'find_schemas'         => { default => 0 },
-        'force_install'        => { default => 0 },
-        'debug'                => { default => 0 },
-        'skip_map_class_forms' => { default => 1 },
+        'find_schemas'                => { default => 0 },
+        'force_install'               => { default => 0 },
+        'debug'                       => { default => 0 },
+        'skip_map_class_forms'        => { default => 1 },
+        'include_autoinc_form_fields' => { default => 0 },
     ],
     'scalar --get_set_init' => 'column_field_map',
     'scalar --get_set_init' => 'column_to_label',
@@ -46,6 +47,7 @@ Rose::DBx::Garden - bootstrap Rose::DB::Object and Rose::HTML::Form classes
          force_install   => 0,           # do not overwrite existing files
          debug           => 0,           # print actions on stderr
          skip_map_class_forms => 1,      # no Form classes for many2many map classes
+         include_autoinc_form_fields => 0,
          # other Rose::DB::Object::Loader params here
  
  );
@@ -70,6 +72,14 @@ is also available here.
 B<NOTE:> All the init_* methods are intended for when you subclass the Garden
 class. You can pass in values to the new() constructor for normal use.
 See L<Rose::Object::MakeMethods::Generic>.
+
+=cut
+
+=head2 include_autoinc_form_fields
+
+The default behaviour is to exclude db columns flagged as
+auto_increment from the generated Form class. Set this value
+to a true value to include auto_increment columns as form fields.
 
 =cut
 
@@ -563,6 +573,10 @@ sub _column_to_field {
 
     unless ( $self->can($field_maker) ) {
         $field_maker = 'garden_default_field';
+    }
+
+    if ( $col_type eq 'serial' and !$self->include_autoinc_form_fields ) {
+        return '';
     }
 
     return $self->$field_maker( $column, $label, $tabindex );
