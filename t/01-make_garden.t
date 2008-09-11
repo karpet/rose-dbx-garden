@@ -5,6 +5,10 @@ use Rose::DBx::Garden;
 use Rose::DBx::TestDB;
 use Path::Class;
 use Rose::HTML::Form;
+use Rose::HTMLx::Form::Field::Serial;
+
+Rose::HTML::Form->field_type_class(
+    serial => 'Rose::HTMLx::Form::Field::Serial' );
 
 my $debug = $ENV{PERL_DEBUG} || 0;
 
@@ -129,8 +133,8 @@ for my $class (
                 skip( " -- change requested in default column mapping", 1 );
             }
 
-            is( $form->field('id')->isa('Rose::HTML::Form::Field::Hidden'),
-                1, "id field is hidden" );
+            is( $form->field('id')->isa('Rose::HTMLx::Form::Field::Serial'),
+                1, "id field is serial" );
         }
 
     }

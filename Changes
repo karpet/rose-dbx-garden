@@ -69,3 +69,4 @@ Revision history for Rose-DBx-Garden
         * added 'bigint' to field-column mapping
         * add skip_map_class_forms boolean feature
         * add include_autoinc_form_fields boolean feature 
+        * add serial field type

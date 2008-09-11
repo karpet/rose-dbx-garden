@@ -15,7 +15,7 @@ use Rose::Object::MakeMethods::Generic (
         'force_install'               => { default => 0 },
         'debug'                       => { default => 0 },
         'skip_map_class_forms'        => { default => 1 },
-        'include_autoinc_form_fields' => { default => 0 },
+        'include_autoinc_form_fields' => { default => 1 },
     ],
     'scalar --get_set_init' => 'column_field_map',
     'scalar --get_set_init' => 'column_to_label',
@@ -47,7 +47,7 @@ Rose::DBx::Garden - bootstrap Rose::DB::Object and Rose::HTML::Form classes
          force_install   => 0,           # do not overwrite existing files
          debug           => 0,           # print actions on stderr
          skip_map_class_forms => 1,      # no Form classes for many2many map classes
-         include_autoinc_form_fields => 0,
+         include_autoinc_form_fields => 1,
          # other Rose::DB::Object::Loader params here
  
  );
@@ -77,9 +77,10 @@ See L<Rose::Object::MakeMethods::Generic>.
 
 =head2 include_autoinc_form_fields
 
-The default behaviour is to exclude db columns flagged as
-auto_increment from the generated Form class. Set this value
-to a true value to include auto_increment columns as form fields.
+The default behaviour is to include db columns flagged as
+auto_increment from the generated Form class and to map
+them to the 'serial' field type. Set this value
+to a false value to exclude auto_increment columns as form fields.
 
 =cut
 
@@ -101,7 +102,7 @@ sub init_column_field_map {
         'epoch'            => 'datetime',
         'integer'          => 'integer',
         'bigint'           => 'integer',
-        'serial'           => 'hidden',
+        'serial'           => 'serial',
         'time'             => 'time',
         'timestamp'        => 'datetime',
         'float'            => 'numeric',    # TODO nice to have ::Field::Float
@@ -738,6 +739,27 @@ sub garden_hidden_field {
     $name => {
         id      => '$name',
         type    => 'hidden',
+        class   => '$col_type',
+        label   => '$label',
+        rank    => $tabindex,
+        },
+EOF
+}
+
+=head2 garden_serial_field( I<column>, I<label>, I<tabindex> )
+
+Returns the Perl code text for creating a serial Form field.
+
+=cut
+
+sub garden_serial_field {
+    my ( $self, $column, $label, $tabindex ) = @_;
+    my $col_type = $column->type;
+    my $name     = $column->name;
+    return <<EOF;
+    $name => {
+        id      => '$name',
+        type    => 'serial',
         class   => '$col_type',
         label   => '$label',
         rank    => $tabindex,

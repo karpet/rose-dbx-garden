@@ -18,7 +18,8 @@ WriteMakefile(
         'Rose::HTML::Objects' => 0,
         'File::Basename'   => 0,
         'Rose::HTMLx::Form::Field::Boolean' => 0.01,
-        'Rose::HTMLx::Form::Field::Autocomplete' => 0
+        'Rose::HTMLx::Form::Field::Autocomplete' => 0,
+        'Rose::HTMLx::Form::Field::Serial' => 0,
 
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
