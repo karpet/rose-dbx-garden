@@ -28,7 +28,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar'                => 'use_db_name',
 );
 
-our $VERSION = '0.15';
+our $VERSION = '0.16';
 
 =head1 NAME
 
@@ -595,8 +595,11 @@ sub garden_default_field {
     my $type     = $self->column_field_map->{$col_type} || 'text';
     my $name     = $column->name;
     my $length   = $column->can('length') ? $column->length() : 0;
+    my $maxlen   = $self->text_field_size;
+    if ( defined $length ) {
+        $maxlen = $length;
+    }
     $length = 24 unless defined $length;    # 24 holds a timestamp
-    my $maxlen = $self->text_field_size;
 
     if ( $length > $maxlen ) {
         $length = $maxlen;
@@ -677,10 +680,13 @@ sub garden_text_field {
     my $length   = $column->can('length') ? $column->length() : 0;
     $length = 0 unless defined $length;
     my $maxlen = $self->text_field_size;
-
+    if ( defined $length ) {
+        $maxlen = $length;
+    }
     if ( $length > $maxlen ) {
         $length = $maxlen;
     }
+
     return <<EOF;
     $name => {
         id          => '$name',
