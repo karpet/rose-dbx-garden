@@ -9,6 +9,8 @@ use Path::Class;
 use File::Slurp;
 use File::Basename;
 
+my $MAX_FIELD_SIZE = 64;
+
 use Rose::Object::MakeMethods::Generic (
     boolean => [
         'find_schemas'                => { default => 0 },
@@ -168,7 +170,7 @@ size of a text field. The default is 64.
 
 =cut
 
-sub init_text_field_size {64}
+sub init_text_field_size {$MAX_FIELD_SIZE}
 
 =head2 init_base_code
 
@@ -601,8 +603,8 @@ sub garden_default_field {
     }
     $length = 24 unless defined $length;    # 24 holds a timestamp
 
-    if ( $length > $maxlen ) {
-        $length = $maxlen;
+    if ( $length > $MAX_FIELD_SIZE ) {
+        $length = $MAX_FIELD_SIZE;
     }
     return <<EOF;
     $name => {
@@ -683,8 +685,8 @@ sub garden_text_field {
     if ( defined $length ) {
         $maxlen = $length;
     }
-    if ( $length > $maxlen ) {
-        $length = $maxlen;
+    if ( $length > $MAX_FIELD_SIZE ) {
+        $length = $MAX_FIELD_SIZE;
     }
 
     return <<EOF;
@@ -711,13 +713,7 @@ sub garden_textarea_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
-    my $length   = $column->can('length') ? $column->length() : 0;
-    $length = 0 unless defined $length;
-    my $maxlen = $self->text_field_size;
 
-    if ( $length > $maxlen ) {
-        $length = $maxlen;
-    }
     return <<EOF;
     $name => {
         id          => '$name',
@@ -726,7 +722,7 @@ sub garden_textarea_field {
         label       => '$label',
         tabindex    => $tabindex,
         rank        => $tabindex,
-        size        => $maxlen . 'x8',
+        size        => $MAX_FIELD_SIZE . 'x8',
         },
 EOF
 }
