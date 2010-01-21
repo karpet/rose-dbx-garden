@@ -66,6 +66,11 @@ Rose::DBx::Garden bootstraps Rose::DB::Object and Rose::HTML::Form based project
 The idea is that you can point the module at a database and end up with work-able
 RDBO and Form classes with a single method call.
 
+Rose::DBx::Garden creates scaffolding only. 
+It creates Rose::DB::Object-based and Rose::HTML::Object-based classes, which
+assume 1 table == 1 form.  There is no generation of code to handle
+subforms, though it's relatively easy to add those later.
+
 Rose::DBx::Garden inherits from Rose::DB::Object::Loader, so all the magic there
 is also available here.
 
