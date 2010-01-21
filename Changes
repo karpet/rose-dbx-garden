@@ -72,5 +72,7 @@ Revision history for Rose-DBx-Garden
         * add serial field type
 
 0.16    xxx
-        * fix maxlength logic for text fields
+        * fix maxlength logic for text fields.
+        * minor pod fixes.
+        * add Enum column support (maps to Menu Field)
 

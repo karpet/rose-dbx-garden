@@ -112,6 +112,7 @@ sub init_column_field_map {
         'decimal'          => 'numeric',
         'double precision' => 'numeric',
         'boolean'          => 'boolean',
+        'enum'             => 'menu',
     };
 }
 
@@ -182,7 +183,7 @@ sub init_base_code {''}
 
 =head2 init_base_form_class_code
 
-The return value is inserted into the base RHTMLO class created;
+The return value is inserted into the base RHTMLO class created.
 
 =cut
 
@@ -699,6 +700,33 @@ sub garden_text_field {
         rank        => $tabindex,
         size        => $length,
         maxlength   => $maxlen,
+        },
+EOF
+}
+
+=head2 garden_menu_field( I<column>, I<label>, I<tabindex> )
+
+Returns the Perl code text for creating a menu Form field.
+
+=cut
+
+sub garden_menu_field {
+    my ( $self, $column, $label, $tabindex ) = @_;
+    my $col_type = $column->type;
+    my $name     = $column->name;
+    my $options  = dump $column->values;
+
+    #dump $column;
+
+    return <<EOF;
+    $name => {
+        id          => '$name',
+        type        => 'menu',
+        class       => '$col_type',
+        label       => '$label',
+        tabindex    => $tabindex,
+        rank        => $tabindex,
+        options     => $options,
         },
 EOF
 }
