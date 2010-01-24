@@ -71,7 +71,7 @@ Revision history for Rose-DBx-Garden
         * add include_autoinc_form_fields boolean feature 
         * add serial field type
 
-0.16    xxx
+0.16    23 Jan 2009
         * fix maxlength logic for text fields.
         * minor pod fixes.
         * add Enum column support (maps to Menu Field)
