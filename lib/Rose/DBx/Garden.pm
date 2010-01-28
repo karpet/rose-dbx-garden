@@ -30,7 +30,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar'                => 'use_db_name',
 );
 
-our $VERSION = '0.16';
+our $VERSION = '0.17';
 
 =head1 NAME
 
@@ -388,7 +388,9 @@ EOF
 
         #carp "class: $class";
 
-        my $template = my $this_preamble = my $this_postamble = '';
+        my $template       = '';
+        my $this_preamble  = '';
+        my $this_postamble = '';
 
         if ( $class->isa('Rose::DB::Object') ) {
 
@@ -403,7 +405,7 @@ EOF
             }
 
             if ($postamble) {
-                my $this_postamble
+                $this_postamble
                     = ref $postamble eq 'CODE'
                     ? $postamble->( $class->meta )
                     : $postamble;
