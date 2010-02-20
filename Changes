@@ -78,4 +78,5 @@ Revision history for Rose-DBx-Garden
 
 0.17    xxx
         * fix a bug affecting generated postamble code in RDBO classes. Reported by Adam Mackler.
+        * map RDBO column remarks() to RHTMLO field description().
 

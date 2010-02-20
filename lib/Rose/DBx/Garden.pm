@@ -604,6 +604,7 @@ sub garden_default_field {
     my $col_type = $column->type;
     my $type     = $self->column_field_map->{$col_type} || 'text';
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
     my $length   = $column->can('length') ? $column->length() : 0;
     my $maxlen   = $self->text_field_size;
     if ( defined $length ) {
@@ -614,6 +615,7 @@ sub garden_default_field {
     if ( $length > $MAX_FIELD_SIZE ) {
         $length = $MAX_FIELD_SIZE;
     }
+    
     return <<EOF;
     $name => {
         id          => '$name',
@@ -624,6 +626,7 @@ sub garden_default_field {
         rank        => $tabindex,
         size        => $length,
         maxlength   => $maxlen,
+        description => q{$desc},
         },
 EOF
 }
@@ -639,6 +642,7 @@ sub garden_numeric_field {
     my $col_type = $column->type;
     my $type     = $self->column_field_map->{$col_type} || 'text';
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
 
     return <<EOF;
     $name => {
@@ -650,6 +654,7 @@ sub garden_numeric_field {
         rank        => $tabindex,
         size        => 16,
         maxlength   => 32,
+        description => q{$desc},
         },
 EOF
 }
@@ -664,6 +669,7 @@ sub garden_boolean_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
 
     return <<EOF;
     $name => {
@@ -673,6 +679,7 @@ sub garden_boolean_field {
         tabindex    => $tabindex,
         rank        => $tabindex,
         class       => '$col_type',
+        description => q{$desc},
         },
 EOF
 }
@@ -696,6 +703,7 @@ sub garden_text_field {
     if ( $length > $MAX_FIELD_SIZE ) {
         $length = $MAX_FIELD_SIZE;
     }
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
 
     return <<EOF;
     $name => {
@@ -707,6 +715,7 @@ sub garden_text_field {
         rank        => $tabindex,
         size        => $length,
         maxlength   => $maxlen,
+        description => q{$desc},
         },
 EOF
 }
@@ -722,6 +731,7 @@ sub garden_menu_field {
     my $col_type = $column->type;
     my $name     = $column->name;
     my $options  = dump $column->values;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
 
     #dump $column;
 
@@ -734,6 +744,7 @@ sub garden_menu_field {
         tabindex    => $tabindex,
         rank        => $tabindex,
         options     => $options,
+        description => q{$desc},
         },
 EOF
 }
@@ -748,6 +759,7 @@ sub garden_textarea_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
 
     return <<EOF;
     $name => {
@@ -758,6 +770,7 @@ sub garden_textarea_field {
         tabindex    => $tabindex,
         rank        => $tabindex,
         size        => $MAX_FIELD_SIZE . 'x8',
+        description => q{$desc},
         },
 EOF
 }
@@ -772,6 +785,7 @@ sub garden_hidden_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
     return <<EOF;
     $name => {
         id      => '$name',
@@ -779,6 +793,7 @@ sub garden_hidden_field {
         class   => '$col_type',
         label   => '$label',
         rank    => $tabindex,
+        description => q{$desc},
         },
 EOF
 }
@@ -793,6 +808,8 @@ sub garden_serial_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
+    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    
     return <<EOF;
     $name => {
         id      => '$name',
@@ -800,6 +817,7 @@ sub garden_serial_field {
         class   => '$col_type',
         label   => '$label',
         rank    => $tabindex,
+        description => q{$desc},
         },
 EOF
 }
