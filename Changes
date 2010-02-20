@@ -76,7 +76,7 @@ Revision history for Rose-DBx-Garden
         * minor pod fixes.
         * add Enum column support (maps to Menu Field)
 
-0.17    xxx
+0.17    20 Feb 2010
         * fix a bug affecting generated postamble code in RDBO classes. Reported by Adam Mackler.
         * map RDBO column remarks() to RHTMLO field description().
 
