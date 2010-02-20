@@ -63,6 +63,8 @@ ok( my $garden = Rose::DBx::Garden->new(
             );
         },
         include_autoinc_form_fields => 1,
+        module_preamble             => qq/#FIRST LINE\n/,
+        module_postamble            => qq/#LAST LINE\n/,
     ),
     "garden obj created"
 );
