@@ -30,7 +30,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar'                => 'use_db_name',
 );
 
-our $VERSION = '0.17';
+our $VERSION = '0.17_01';
 
 =head1 NAME
 
@@ -604,7 +604,7 @@ sub garden_default_field {
     my $col_type = $column->type;
     my $type     = $self->column_field_map->{$col_type} || 'text';
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
     my $length   = $column->can('length') ? $column->length() : 0;
     my $maxlen   = $self->text_field_size;
     if ( defined $length ) {
@@ -615,7 +615,7 @@ sub garden_default_field {
     if ( $length > $MAX_FIELD_SIZE ) {
         $length = $MAX_FIELD_SIZE;
     }
-    
+
     return <<EOF;
     $name => {
         id          => '$name',
@@ -642,7 +642,7 @@ sub garden_numeric_field {
     my $col_type = $column->type;
     my $type     = $self->column_field_map->{$col_type} || 'text';
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
 
     return <<EOF;
     $name => {
@@ -669,7 +669,7 @@ sub garden_boolean_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
 
     return <<EOF;
     $name => {
@@ -703,7 +703,7 @@ sub garden_text_field {
     if ( $length > $MAX_FIELD_SIZE ) {
         $length = $MAX_FIELD_SIZE;
     }
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc = $column->can('remarks') ? ( $column->remarks || '' ) : '';
 
     return <<EOF;
     $name => {
@@ -731,7 +731,7 @@ sub garden_menu_field {
     my $col_type = $column->type;
     my $name     = $column->name;
     my $options  = dump $column->values;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
 
     #dump $column;
 
@@ -759,7 +759,7 @@ sub garden_textarea_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
 
     return <<EOF;
     $name => {
@@ -785,7 +785,7 @@ sub garden_hidden_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
     return <<EOF;
     $name => {
         id      => '$name',
@@ -808,8 +808,8 @@ sub garden_serial_field {
     my ( $self, $column, $label, $tabindex ) = @_;
     my $col_type = $column->type;
     my $name     = $column->name;
-    my $desc     = $column->can('remarks') ? $column->remarks : '';
-    
+    my $desc     = $column->can('remarks') ? ( $column->remarks || '' ) : '';
+
     return <<EOF;
     $name => {
         id      => '$name',
