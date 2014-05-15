@@ -1,5 +1,8 @@
 Revision history for Rose-DBx-Garden
 
+0.19 xxx
+ - switch to File::Slurp::Tiny
+
 0.18 23 March 2010
  - tweek ->remarks check when mapping to description.
 
