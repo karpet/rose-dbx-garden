@@ -6,7 +6,7 @@ use base qw( Rose::DB::Object::Loader );
 use Carp;
 use Data::Dump qw( dump );
 use Path::Class;
-use File::Slurp;
+use File::Slurp::Tiny;
 use File::Basename;
 
 my $MAX_FIELD_SIZE = 64;
@@ -248,6 +248,10 @@ sub plant {
     my $path_obj = dir($path);
 
     $path_obj->mkpath(1);
+
+    if ( !-w "$path_obj" or !-d "$path_obj" ) {
+        croak("$path_obj is not a write-able directory: $!");
+    }
 
     # make sure we can 'require' files we generate
     unshift( @INC, $path );
@@ -865,8 +869,9 @@ sub _make_file {
         $buffer = $newbuf;
     }
 
-    write_file( file( $self->module_dir, $file )->stringify, $buffer )
-        or die "$!\n";
+    my $file_to_write = file( $self->module_dir, $file )->stringify;
+
+    File::Slurp::Tiny::write_file( $file_to_write, $buffer );
 
     print "$class written to $file\n";
 }

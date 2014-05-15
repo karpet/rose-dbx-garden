@@ -1,6 +1,6 @@
 use Test::More tests => 16;
 
-use File::Temp ('tempdir');
+use File::Temp;
 use Rose::DBx::Garden;
 use Rose::DBx::TestDB;
 use Path::Class;
@@ -65,6 +65,7 @@ ok( my $garden = Rose::DBx::Garden->new(
         include_autoinc_form_fields => 1,
         module_preamble             => qq/#FIRST LINE\n/,
         module_postamble            => qq/#LAST LINE\n/,
+        debug                       => 1,
     ),
     "garden obj created"
 );
@@ -72,9 +73,10 @@ ok( my $garden = Rose::DBx::Garden->new(
 my $dir
     = $debug
     ? '/tmp/rose_garden'
-    : tempdir( 'rose_garden_XXXX', CLEANUP => 1 );
+    : File::Temp->newdir( 'rose_garden_XXXX', TMPDIR => 1 );
 
-ok( $garden->make_garden($dir), "make_garden" );
+diag("temp dir==$dir");
+ok( $garden->make_garden("$dir"), "make_garden" );
 
 #push( @INC, $dir );
 
