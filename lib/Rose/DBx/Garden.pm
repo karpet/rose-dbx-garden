@@ -30,7 +30,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar'                => 'use_db_name',
 );
 
-our $VERSION = '0.19';
+our $VERSION = '0.190';
 
 =head1 NAME
 

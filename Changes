@@ -1,6 +1,6 @@
 Revision history for Rose-DBx-Garden
 
-0.19 xxx
+0.190 15 May 2014
  - switch to File::Slurp::Tiny
 
 0.18 23 March 2010
