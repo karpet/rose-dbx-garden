@@ -1,5 +1,9 @@
 Revision history for Rose-DBx-Garden
 
+0.191 xxx
+ - remove the DEVELOPMENT RELEASE caveat. after this many years, it is as
+   stable as it will ever be.
+
 0.190 15 May 2014
  - switch to File::Slurp::Tiny
 
