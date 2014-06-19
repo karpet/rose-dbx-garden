@@ -1,8 +1,9 @@
 Revision history for Rose-DBx-Garden
 
-0.191 xxx
+0.191 19 June 2014
  - remove the DEVELOPMENT RELEASE caveat. after this many years, it is as
    stable as it will ever be.
+ - mkpath(self->debug) instead of mkpath(1) [ https://rt.cpan.org/Ticket/Display.html?id=96552 ]
 
 0.190 15 May 2014
  - switch to File::Slurp::Tiny

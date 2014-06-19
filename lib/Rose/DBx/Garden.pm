@@ -245,7 +245,7 @@ sub plant {
 
     my $path_obj = dir($path);
 
-    $path_obj->mkpath(1);
+    $path_obj->mkpath( $self->debug );
 
     if ( !-w "$path_obj" or !-d "$path_obj" ) {
         croak("$path_obj is not a write-able directory: $!");
@@ -854,7 +854,7 @@ sub _make_file {
         }
     }
 
-    $fullpath->mkpath(1) if $path;
+    $fullpath->mkpath( $self->debug ) if $path;
 
     if ( $self->perltidy_opts ) {
         require Perl::Tidy;
