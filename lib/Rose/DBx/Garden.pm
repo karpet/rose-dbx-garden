@@ -39,9 +39,9 @@ Rose::DBx::Garden - bootstrap Rose::DB::Object and Rose::HTML::Form classes
 =head1 SYNOPSIS
 
  use Rose::DBx::Garden;
-    
+
  my $garden = Rose::DBx::Garden->new(
- 
+
          garden_prefix   => 'MyRoseGarden',    # instead of class_prefix
          perltidy_opts   => '-pbp -nst -nse',  # Perl Best Practices
          db              => My::DB->new, # Rose::DB object
@@ -51,11 +51,11 @@ Rose::DBx::Garden - bootstrap Rose::DB::Object and Rose::HTML::Form classes
          skip_map_class_forms => 1,      # no Form classes for many2many map classes
          include_autoinc_form_fields => 1,
          # other Rose::DB::Object::Loader params here
- 
+
  );
-                        
+
  # $garden ISA Rose::DB::Object::Loader
-                     
+
  $garden->plant('path/to/where/i/want/files');
 
 =head1 DESCRIPTION
@@ -64,7 +64,7 @@ Rose::DBx::Garden bootstraps L<Rose::DB::Object> and L<Rose::HTML::Form> based p
 The idea is that you can point the module at a database and end up with work-able
 RDBO and Form classes with a single method call.
 
-Rose::DBx::Garden creates scaffolding only. 
+Rose::DBx::Garden creates scaffolding only.
 It creates Rose::DB::Object-based and Rose::HTML::Object-based classes, which
 assume 1 table == 1 form.  There is no generation of code to handle
 subforms, though it's relatively easy to add those later.
@@ -132,7 +132,7 @@ in Rose::DB::Object::ConventionManager, you might do something like:
     my $garden = Rose::DBx::Garden->new(
                     column_to_label => sub {
                            my ($garden_obj, $col_name) = @_;
-                           return join(' ', 
+                           return join(' ',
                                        map { ucfirst($_) }
                                        split(m/_/, $col_name)
                                   );
@@ -226,7 +226,7 @@ I<path> will override module_dir() if set in new().
 Returns a hash ref of all the class names created, in the format:
 
  RDBO::Class => RHTMLO::Class
- 
+
 If no RHTMLO class was created the hash value will be '1'.
 
 =head2 make_garden
@@ -274,8 +274,8 @@ use strict;
 use base qw( Rose::DB::Object );
 use $db_class;
 
-sub init_db { 
-    ${db_class}->$new_method( type => '$db_type', domain => '$db_domain' ) 
+sub init_db {
+    ${db_class}->$new_method( type => '$db_type', domain => '$db_domain' )
 }
 
 =head2 garden_prefix
@@ -539,9 +539,9 @@ sub ${object_name}_from_form {
 
 sub build_form {
     my \$self = shift;
-    
+
     \$self->add_fields(
-    
+
 EOF
 
     my @fields;
@@ -553,7 +553,7 @@ EOF
     $form .= join( "\n", @fields );
     $form .= <<EOF;
     );
-    
+
     return \$self->SUPER::build_form(\@_);
 }
 
@@ -833,7 +833,7 @@ sub _schema_template {
     return <<EOF;
 package $package;
 use strict;
-use base qw( $base );
+use base qw( $base @{$self->base_classes} );
 
 sub schema { '$schema' }
 
