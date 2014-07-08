@@ -30,7 +30,7 @@ use Rose::Object::MakeMethods::Generic (
     'scalar'                => 'use_db_name',
 );
 
-our $VERSION = '0.191';
+our $VERSION = '0.192';
 
 =head1 NAME
 
@@ -826,6 +826,9 @@ EOF
 
 sub _schema_template {
     my ( $self, $base, $package, $schema ) = @_;
+
+    $base
+        .= join( ' ', grep { !m/LoaderGenerated/ } @{ $self->base_classes } );
 
     return <<EOF;
 package $package;

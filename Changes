@@ -1,5 +1,9 @@
 Revision history for Rose-DBx-Garden
 
+0.192 8 July 2014
+ - support Loader base_classes method in _schema_template().
+   Cf. https://rt.cpan.org/Ticket/Display.html?id=97043
+
 0.191 19 June 2014
  - remove the DEVELOPMENT RELEASE caveat. after this many years, it is as
    stable as it will ever be.
