@@ -1,4 +1,4 @@
-use Test::More tests => 16;
+use Test::More tests => 17;
 
 use File::Temp;
 use Rose::DBx::Garden;
@@ -48,12 +48,17 @@ CREATE TABLE foo (
     use base qw( Rose::DB::Object );
 
     sub meta_class {'MyMetadata'}
+
+    package MyRDBOBase;
+
+    sub new { bless {}, shift }
 }
 
 ok( my $garden = Rose::DBx::Garden->new(
         db              => $db,
         find_schemas    => 0,
         garden_prefix   => 'MyRDBO',
+        base_class      => 'MyRDBOBase',
         force_install   => 1,
         column_to_label => sub {
             my ( $garden_obj, $col_name ) = @_;
@@ -122,6 +127,10 @@ for my $class (
     eval "use $class";
     ok( !$@, "require $class" );
     diag($@) and next if $@;
+
+    if ( $class eq "MyRDBO::${dbname}::Foo" ) {
+        isa_ok( $class->new, "MyRDBOBase" );
+    }
 
     if ( $class eq "MyRDBO::${dbname}::Foo::Form" ) {
         ok( my $form = $class->new, "new $class" );

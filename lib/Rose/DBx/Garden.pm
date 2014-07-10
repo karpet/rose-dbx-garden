@@ -827,8 +827,10 @@ EOF
 sub _schema_template {
     my ( $self, $base, $package, $schema ) = @_;
 
-    $base
-        .= join( ' ', grep { !m/LoaderGenerated/ } @{ $self->base_classes } );
+    my @other_base = grep { !m/LoaderGenerated/ } @{ $self->base_classes };
+    if (@other_base) {
+        $base .= ' ' . join( ' ', @other_base );
+    }
 
     return <<EOF;
 package $package;
