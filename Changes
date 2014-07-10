@@ -1,5 +1,9 @@
 Revision history for Rose-DBx-Garden
 
+0.193 10 July 2014
+ - fix whitespace regression bug introduced in 0.192. Reported
+   by Holger Rupprecht via f7c65ec.
+
 0.192 8 July 2014
  - support Loader base_classes method in _schema_template().
    Cf. https://rt.cpan.org/Ticket/Display.html?id=97043
