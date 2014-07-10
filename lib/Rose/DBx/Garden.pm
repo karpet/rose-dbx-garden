@@ -828,7 +828,7 @@ sub _schema_template {
     my ( $self, $base, $package, $schema ) = @_;
 
     $base
-        .= join( ' ', grep { !m/LoaderGenerated/ } @{ $self->base_classes } );
+        .= ' ' . join( ' ', grep { !m/LoaderGenerated/ } @{ $self->base_classes } );
 
     return <<EOF;
 package $package;
